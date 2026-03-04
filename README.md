@@ -6,11 +6,11 @@ API to demonstrate core search‑engine concepts.
 
 ### Key features
 
-* Crawls arbitrary URLs, parses text with HtmlAgilityPack and indexes terms
+- Crawls arbitrary URLs, parses text with HtmlAgilityPack and indexes terms
   with their positions.
-* Supports TF‑IDF ranking with phrase boosts (quoted or implicit) and
+- Supports TF‑IDF ranking with phrase boosts (quoted or implicit) and
   returns snippets with highlighted matches.
-* Simple browser UI served from `wwwroot` plus endpoints for search,
+- Simple browser UI served from `wwwroot` plus endpoints for search,
   crawling and inspecting indexed documents.
 
 ### Tech stack
@@ -20,10 +20,10 @@ collections and compiled regex for performance.
 
 ### Highlights for a hirer
 
-* Built a full search pipeline from crawling to ranking in a single service.
-* Applied performance tuning: JIT warm‑up, posting‑list intersection,
+- Built a full search pipeline from crawling to ranking in a single service.
+- Applied performance tuning: JIT warm‑up, posting‑list intersection,
   binary search on position arrays, and caching.
-* Refactored prototype into reusable classes and added clean separation of
+- Refactored prototype into reusable classes and added clean separation of
   UI, models and logic.
 
 ### Quick start
@@ -35,6 +35,7 @@ cd swagengine
 dotnet build    # stop any running instance first
 dotnet run
 ```
+
 Open `http://localhost:5000` in a browser to try the UI.
 
 ### Further work
