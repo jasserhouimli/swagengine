@@ -1,0 +1,14 @@
+body{font-family:Segoe UI, Roboto, Arial, sans-serif;margin:24px;color:#202124}
+h1{font-size:28px;margin-bottom:8px}
+.search-bar{margin-bottom:12px}
+.result{padding:12px 0;border-bottom:1px solid #eee}
+.url{color:#1a0dab}
+.snippet{color:#202124;margin-top:6px}
+.crawl-box{margin-top:18px;padding:12px;border:1px solid #eee;border-radius:6px;background:#fbfbfb}
+button{background:#1a73e8;color:white;border:none;padding:8px 12px;border-radius:4px;cursor:pointer}
+button:hover{opacity:0.95}
+input{padding:8px;border:1px solid #ddd;border-radius:4px}
+mark{background:yellow;color:inherit;padding:0 2px}
+.score{color:#6a6a6a;font-size:12px;margin-top:4px}
+#crawl-status{margin-top:8px;color:#3c4043;font-size:13px}
+#doc-count{font-weight:600;margin-bottom:6px}

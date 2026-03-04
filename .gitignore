@@ -1,0 +1,48 @@
+# Build artifacts
+bin/
+obj/
+
+# Visual Studio files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet packages
+*.nupkg
+*.snupkg
+
+# ASP.NET Core
+wwwroot/lib/
+
+# Logs
+*.log
+
+# Sensitive files
+appsettings.*.json
+
+# OS files
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Dependency directories
+.nuget/
+
+# JetBrains Rider local settings
+.idea/
+
+# VS Code settings
+.vscode/
+
+# Others
+*.db
+*.bak
+
+# Exclude the executable produced by dotnet run
+bin/Debug/net*/swagengine.exe

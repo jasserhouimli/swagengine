@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>LumenSeek</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<h1> LumenSeek</h1>
+<div class="search-bar">
+  <input id="q" placeholder="search..." style="width:60%" onkeydown="if(event.key==='Enter')search()"/>
+  <button onclick="search()">Search</button>
+</div>
+<div id="results"></div>
+<div class="crawl-box">
+  <h3>&#128230; Add pages to index</h3>
+  <p id="doc-count"></p>
+  <input id="crawl-url" placeholder="https://en.wikipedia.org/wiki/..." />
+  <button onclick="crawl()">Crawl</button>
+  <div id="crawl-status"></div>
+</div>
+<script>
+async function loadCount(){
+  const r=await fetch('/docs');
+  const d=await r.json();
+  document.getElementById('doc-count').textContent=d.length+' pages indexed';
+}
+loadCount();
+async function search(){
+  const q=document.getElementById('q').value;
+  if(!q) return;
+  const res=await fetch('/search?q='+encodeURIComponent(q));
+  const data=await res.json();
+  if(!data.results.length){document.getElementById('results').innerHTML='<p>No results.</p>';return;}
+  const timing=`<div style='color:#70757a;font-size:13px;margin:8px 0'>About ${data.results.length} results (${data.elapsedMs < 1 ? data.elapsedMs.toFixed(3) : data.elapsedMs.toFixed(1)} ms)</div>`;
+  document.getElementById('results').innerHTML=timing+data.results.map((r,i)=>
+    `<div class='result'>
+       <div class='url'>${i+1}. <a href='${r.url}' target='_blank'>${r.url}</a></div>
+       <div class='score'>score: ${r.score.toFixed(4)}</div>
+       <div class='snippet'>${r.snippet}</div>
+     </div>`).join('');
+}
+async function crawl(){
+  const url=document.getElementById('crawl-url').value.trim();
+  if(!url){alert('Enter a URL');return;}
+  document.getElementById('crawl-status').textContent='Crawling...';
+  try{
+    const res=await fetch('/crawl',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({seeds:[url]})});
+    const data=await res.json();
+    document.getElementById('crawl-status').textContent=res.ok?'Done! Crawled '+data.crawled+' page(s).':'Error: '+JSON.stringify(data);
+    document.getElementById('crawl-url').value='';
+    loadCount();
+  }catch(e){document.getElementById('crawl-status').textContent='Error: '+e.message;}
+}
+</script>
+</body>
+</html>
