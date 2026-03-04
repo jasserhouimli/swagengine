@@ -1,80 +1,46 @@
-# LumenSeek (formerly SwagEngine)
+# LumenSeek
 
-This repository contains a simple in‑memory search engine built in C# using
-.NET 10 and ASP.NET Core. The aim of the project was to explore the
-fundamentals of web crawling, indexing, and query processing while
-familiarising myself with the .NET web stack.
+A compact, in‑memory search engine written in C#/.NET 10. It combines a
+basic web crawler, a positional inverted index, and a minimal ASP.NET Core
+API to demonstrate core search‑engine concepts.
 
-## Overview
+### Key features
 
-The application behaves as follows:
+* Crawls arbitrary URLs, parses text with HtmlAgilityPack and indexes terms
+  with their positions.
+* Supports TF‑IDF ranking with phrase boosts (quoted or implicit) and
+  returns snippets with highlighted matches.
+* Simple browser UI served from `wwwroot` plus endpoints for search,
+  crawling and inspecting indexed documents.
 
-- An ASP.NET minimal API provides three endpoints:
-  - `GET /` serves a static single‑page interface from `wwwroot/index.html`.
-  - `GET /search?q=...` accepts a query string, executes a TF‑IDF ranking
-    search over an in‑memory positional inverted index, and returns JSON
-    results with snippets and elapsed time in milliseconds.
-  - `POST /crawl` accepts a list of seed URLs and fetches them using
-    `HttpClient`/HtmlAgilityPack, extracting text and updating the index.
-  - `GET /docs` returns a list of currently indexed documents (URL/text).
+### Tech stack
 
-- The index stores term positions for each document which enables phrase
-  matching and boosts phrase scores. Queries support quoted phrases and
-  implicit phrase detection when the input contains multiple words.
+C# 12, .NET 10, ASP.NET Core minimal API, HtmlAgilityPack, concurrent
+collections and compiled regex for performance.
 
-- A lightweight front end written in plain HTML/JavaScript interacts with
-  the API to perform searches, display results with highlighted terms, and
-  allow new URLs to be crawled.
+### Highlights for a hirer
 
-## Technologies used
+* Built a full search pipeline from crawling to ranking in a single service.
+* Applied performance tuning: JIT warm‑up, posting‑list intersection,
+  binary search on position arrays, and caching.
+* Refactored prototype into reusable classes and added clean separation of
+  UI, models and logic.
 
-- C# 12 / .NET 10.0
-- ASP.NET Core minimal APIs
-- HtmlAgilityPack for HTML parsing
-- Concurrent collections for thread‑safe indexing
-- Regex for tokenisation
+### Quick start
 
-## What I learned
+```bash
+git clone <repo>
+cd swagengine
+# ensure .NET 10 SDK is installed
+dotnet build    # stop any running instance first
+dotnet run
+```
+Open `http://localhost:5000` in a browser to try the UI.
 
-Working through this project gave me hands‑on experience with several
-aspects of search engine construction and web programming:
+### Further work
 
-- How to build and maintain a positional inverted index, including the
-  performance implications of different data structures.
-- Implementing TF‑IDF ranking and normalising by document length.
-- Handling phrase queries efficiently by intersecting posting lists and
-  using binary search on position arrays.
-- The importance of warming up the JIT and caching compiled regex for
-  throughput in a long‑running server.
-- Transitioning a console prototype to an ASP.NET Core web application and
-  serving static files with middleware.
-- Refactoring code into reusable classes, separating models and utilities,
-  and keeping the web interface and back end decoupled.
+Persistence, advanced ranking (BM25/ML), polite crawler behaviour and a
+suite of tests/benchmarks are natural next steps.
 
-## Running the project
-
-1. Clone the repository.
-2. Make sure the .NET 10 SDK is installed.
-3. Restore and build using `dotnet build` (stop any running instance first).
-4. Run with `dotnet run` or by launching the executable; the app listens on
-   the default Kestrel port (likely `http://localhost:5000`).
-5. Open a browser and navigate to `/` to use the search UI.
-6. Use the crawl form or `POST /crawl` with JSON `{ "seeds": [ ... ] }` to
-   add more pages to the index.
-
-## Next steps
-
-This is a toy project, but the codebase could be extended with:
-
-- Persistent storage of the index (disk or a database).
-- Better ranking algorithms (BM25, learning‑to‑rank).
-- Polite crawling with robots.txt support and rate‑limiting.
-- Automated tests and benchmarking to measure latency and accuracy.
-
-Feel free to experiment, improve the crawler, or just learn from the code.
-
----
-
-This README is intended for inclusion in a GitHub repository for others to
-read and for my own reference on what the project contains and what I
-picked up while building it.
+This README is tailored for prospective employers to quickly grasp the
+project's scope, technology choices and the skills demonstrated.
